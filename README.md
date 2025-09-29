@@ -5,7 +5,11 @@
 ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![MySQL](https://img.shields.io/badge/mysql-%2300000f.svg?style=for-the-badge&logo=mysql&logoColor=white)
+![MySQL](https://img.shields.io/ba**Error**: JWT_SECRET not found
+
+````bash
+# Regenerate JWT secret
+node New-JwtSecret.jssql-%2300000f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 
 **Enterprise-Grade Authentication System với NestJS & Next.js**
@@ -48,7 +52,8 @@ cd Blog_Project
 cp .env.example .env  # Edit với thông tin thật
 
 # 2. Generate Secure Environment
-node generate-jwt-secret.js  # Auto-generate JWT_SECRET
+# 3. Generate secure JWT secret
+node New-JwtSecret.js  # Auto-generate JWT_SECRET
 node setup-env.js           # Create backend/frontend env files
 
 # 3. Database Setup
@@ -60,7 +65,7 @@ cd blog-backend && npm install && npm run start:dev
 
 # 5. Start Frontend (new terminal)
 cd blog-frontend && npm install && npm run dev
-```
+````
 
 **🎉 Done!** Access http://localhost:3001
 
@@ -187,7 +192,7 @@ sequenceDiagram
 ├── ⚙️ Environment Management   ← Centralized configuration
 │   ├── .env.example            ← Safe template
 │   ├── setup-env.js/ps1        ← Auto-generation
-│   └── generate-jwt-secret.js/ps1
+│   └── New-JwtSecret.js/ps1
 ├── 📁 blog-backend/            ← NestJS API Server
 │   ├── 📁 src/auth/            ← Authentication module
 │   ├── 📁 src/users/           ← User management
@@ -293,7 +298,7 @@ cp .env.example .env
 # Edit .env with your actual values
 
 # 2. Generate secure JWT secret
-node generate-jwt-secret.js
+node New-JwtSecret.js
 # → Updates .env with cryptographically secure JWT_SECRET
 
 # 3. Auto-generate sub-environment files

@@ -174,7 +174,7 @@ if (process.argv.includes("--help") || process.argv.includes("-h")) {
   log("🔐 JWT Secret Generator", "cyan");
   log("", "reset");
   log("Usage:", "yellow");
-  log("  node generate-jwt-secret.js", "yellow");
+  log("  node New-JwtSecret.js", "yellow");
   log("", "reset");
   log("Options:", "yellow");
   log("  --help, -h    Show this help message", "yellow");

@@ -10,8 +10,8 @@ Blog_Project/
 ├── .env                      # 🔒 Environment thật (KHÔNG commit)
 ├── setup-env.js              # 🤖 Script Node.js tạo env files
 ├── setup-env.ps1             # 🤖 Script PowerShell tạo env files
-├── generate-jwt-secret.js    # 🔐 JWT Secret generator (Node.js)
-├── generate-jwt-secret.ps1   # 🔐 JWT Secret generator (PowerShell)
+├── New-JwtSecret.js    # 🔐 JWT Secret generator (Node.js)
+├── New-JwtSecret.ps1   # 🔐 JWT Secret generator (PowerShell)
 ├── blog-backend/
 │   └── .env                 # 🔄 Generated từ root .env
 └── blog-frontend/
@@ -41,10 +41,12 @@ Blog_Project/
 
    ```bash
    # Tự động generate và cập nhật JWT_SECRET
-   node generate-jwt-secret.js
+   # Generate 64-character cryptographically secure JWT secret
+   node New-JwtSecret.js
 
-   # Hoặc sử dụng PowerShell (Windows)
-   .\generate-jwt-secret.ps1
+   # Windows (PowerShell)
+   # Windows PowerShell version
+   .\New-JwtSecret.ps1
    ```
 
 4. **Tạo environment files cho backend/frontend:**
@@ -175,7 +177,7 @@ JWT_SECRET=staging-another-unique-secret-for-testing-environment-security
 
 ### JWT Security Scripts
 
-#### JWT Secret Generator (`generate-jwt-secret.js`)
+#### JWT Secret Generator (`New-JwtSecret.js`)
 
 - ✅ **Cryptographically secure** random generation
 - ✅ **Auto-update** .env files
@@ -192,7 +194,7 @@ node generate-jwt-secret.js
 # ✅ Đã cập nhật .env files
 ```
 
-#### PowerShell JWT Generator (`generate-jwt-secret.ps1`)
+#### PowerShell JWT Generator (`New-JwtSecret.ps1`)
 
 ```powershell
 # Windows native JWT secret generation

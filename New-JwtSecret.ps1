@@ -11,7 +11,7 @@ if ($Help) {
     Write-Host "🔐 JWT Secret Generator" -ForegroundColor Cyan
     Write-Host ""
     Write-Host "Usage:" -ForegroundColor Yellow
-    Write-Host "  .\generate-jwt-secret.ps1" -ForegroundColor Yellow
+    Write-Host "  .\New-JwtSecret.ps1" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "Options:" -ForegroundColor Yellow
     Write-Host "  -Help    Show this help message" -ForegroundColor Yellow

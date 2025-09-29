@@ -167,7 +167,7 @@ BACKEND_URL=http://localhost:3000
 
 ```bash
 # Auto-generate cryptographically secure JWT_SECRET
-node generate-jwt-secret.js
+node New-JwtSecret.js
 
 # Or manual generation:
 # Use: https://generate-secret.vercel.app/32
@@ -469,7 +469,7 @@ lsof -ti:3001 | xargs kill -9  # Mac/Linux
 
 ```bash
 # Regenerate JWT secret
-node generate-jwt-secret.js
+node New-JwtSecret.js
 
 # Verify in backend .env
 grep JWT_SECRET blog-backend/.env
