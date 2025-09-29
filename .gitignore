@@ -1,0 +1,207 @@
+# ==================================================
+# SECURITY & SENSITIVE FILES - DO NOT COMMIT
+# ==================================================
+
+# Environment files containing secrets
+.env
+.env.*
+!.env.example
+!.env.template
+
+# Backend specific environment files
+blog-backend/.env
+blog-backend/.env.*
+blog-backend/database.config.ts
+blog-backend/database.config.js
+blog-backend/ormconfig.json
+blog-backend/ormconfig.ts
+blog-backend/auth.config.ts
+blog-backend/secrets.json
+blog-backend/credentials.json
+blog-backend/jwt.secret
+blog-backend/api-keys.json
+blog-backend/tokens.json
+
+# Frontend specific environment files
+blog-frontend/.env
+blog-frontend/.env.*
+blog-frontend/next.config.local.js
+blog-frontend/next.config.local.ts
+blog-frontend/config/secrets.json
+blog-frontend/config/api-keys.json
+blog-frontend/auth-tokens.json
+blog-frontend/session-keys.json
+
+# Database files and configs with passwords
+*.db
+*.sqlite
+*.sqlite3
+database.config.ts
+db.config.js
+db.config.ts
+
+# Configuration files that may contain passwords/keys
+config/production.json
+config/development.json
+config/local.json
+secrets.json
+credentials.json
+
+# SSL/TLS certificates and keys
+*.pem
+*.key
+*.crt
+*.cert
+*.p12
+*.pfx
+
+# SSH keys
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+*.ppk
+
+# JWT secrets and tokens
+jwt.secret
+token.secret
+*.jwt
+
+# Docker secrets
+docker-compose.override.yml
+.dockerignore
+
+# ==================================================
+# DEPENDENCIES & BUILD OUTPUT
+# ==================================================
+
+# Node.js dependencies
+node_modules/
+blog-backend/node_modules/
+blog-frontend/node_modules/
+
+# Package manager files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+
+# Backend build outputs (NestJS)
+blog-backend/dist/
+blog-backend/build/
+blog-backend/.nyc_output/
+blog-backend/coverage/
+
+# Frontend build outputs (Next.js)
+blog-frontend/.next/
+blog-frontend/out/
+blog-frontend/build/
+blog-frontend/coverage/
+
+# General build outputs
+dist/
+build/
+out/
+
+# ==================================================
+# LOGS & TEMPORARY FILES
+# ==================================================
+
+# Logs
+logs/
+*.log
+blog-backend/logs/
+blog-frontend/logs/
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Temporary files
+.tmp/
+.temp/
+*.tmp
+*.temp
+blog-backend/.tmp/
+blog-backend/.temp/
+blog-frontend/.tmp/
+blog-frontend/.temp/
+
+# Testing
+blog-backend/test-results/
+blog-frontend/test-results/
+*.tsbuildinfo
+blog-frontend/next-env.d.ts
+
+# ==================================================
+# IDE & EDITOR FILES
+# ==================================================
+
+# VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Other editors
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# ==================================================
+# OS FILES
+# ==================================================
+
+# Windows
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+
+# Linux
+*~
+.nfs*
+
+# ==================================================
+# PACKAGE MANAGER SPECIFIC
+# ==================================================
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+.pnp.*
+
+# PNPM
+.pnpm-debug.log*
+
+# Vercel (for frontend deployment)
+blog-frontend/.vercel

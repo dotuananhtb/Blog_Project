@@ -1,26 +1,94 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🚀 Blog Backend API (NestJS)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> Backend API cho Blog Authentication System
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Setup environment
+cp .env.example .env
+# Update .env with your database credentials
+
+# Run development server
+npm run start:dev
+```
+
+## API Endpoints
+
+- **Base URL**: `http://localhost:3000/api/v1`
+- **Health Check**: `GET /api/v1/health`
+- **API Docs**: `GET /api/v1` (Swagger - Coming soon)
+
+### Authentication
+
+- `POST /auth/register` - User registration
+- `POST /auth/login` - User login
+- `POST /auth/logout` - User logout
+
+### Users
+
+- `GET /users/profile` - Get user profile (Protected)
+- `PUT /users/profile` - Update user profile (Protected)
+
+### Posts (Placeholder)
+
+- `GET /posts` - Get all posts
+- `GET /posts/my-posts` - Get user's posts (Protected)
+
+## Testing
+
+```bash
+# Automated API testing
+node test-api.js
+
+# Unit tests
+npm run test
+
+# E2E tests
+npm run test:e2e
+```
+
+## Environment Variables
+
+```env
+# Database
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=blog_db
+
+# JWT
+JWT_SECRET=your_jwt_secret_key
+
+# Application
+NODE_ENV=development
+PORT=3000
+FRONTEND_URL=http://localhost:3001
+```
+
+## 📚 Documentation
+
+Xem documentation chi tiết tại:
+
+- **[Main README](../README.md)** - Tổng quan project
+- **[Environment Setup](../docs/ENVIRONMENT_SETUP.md)** - Quản lý environment tập trung
+- **[Setup Guide](../docs/SETUP_GUIDE.md)** - Hướng dẫn setup chi tiết
+- **[Backend Details](../docs/BACKEND_DETAILS.md)** - Chi tiết backend architecture
+- **[How to Run](../docs/HOW_TO_RUN.md)** - Hướng dẫn chạy step-by-step
+- **[Demo Script](../docs/DEMO_SCRIPT.md)** - Script demo features
+
+## Tech Stack
+
+- **Framework**: NestJS
+- **Database**: MySQL + TypeORM
+- **Authentication**: JWT
+- **Validation**: class-validator
+- **Password**: bcrypt
+- **Language**: TypeScript
 
 ## Description
 
