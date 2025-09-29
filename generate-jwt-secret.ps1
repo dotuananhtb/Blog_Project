@@ -30,7 +30,7 @@ function Write-ColorOutput {
     Write-Host $Message -ForegroundColor $ForegroundColor
 }
 
-function Generate-JwtSecret {
+function New-JwtSecret {
     param([int]$Length = 32)
     
     # Generate random bytes and convert to hex
@@ -79,7 +79,7 @@ Write-ColorOutput "================================" "Cyan"
 Write-ColorOutput "" "White"
 
 # Generate new JWT secret
-$newJwtSecret = Generate-JwtSecret -Length 32
+$newJwtSecret = New-JwtSecret -Length 32
 
 Write-ColorOutput "📋 JWT_SECRET mới đã được tạo:" "Blue"
 Write-ColorOutput $newJwtSecret "White"
