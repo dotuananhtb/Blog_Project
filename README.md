@@ -558,7 +558,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Made with ❤️ by Development Team**
+**Made with ❤️ by DTA**
 
 [⬆ Về đầu trang](#-blog-authentication-system)
 
