@@ -8,558 +8,531 @@
 ![MySQL](https://img.shields.io/badge/mysql-%2300000f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 
+**Enterprise-Grade Authentication System với NestJS & Next.js**
+
+[🚀 Quick Start](#-quick-start) • [📖 Documentation](#-documentation-system) • [🧪 Demo](#-demo--testing) • [📞 Support](#-support)
+
 </div>
 
-> Hệ thống Blog với Authentication hoàn chỉnh sử dụng NestJS Backend và Next.js Frontend
+---
 
-## 📋 Mục lục
+## 🎯 Project Overview
 
-- [Tổng quan](#-tổng-quan)
-- [Tính năng](#-tính-năng)
-- [Kiến trúc hệ thống](#-kiến-trúc-hệ-thống)
-- [Cài đặt nhanh](#-cài-đặt-nhanh)
-- [API Documentation](#-api-documentation)
-- [Frontend Features](#-frontend-features)
-- [Bảo mật](#-bảo-mật)
-- [Cấu trúc project](#-cấu-trúc-project)
-- [Database Schema](#-database-schema)
-- [Demo & Testing](#-demo--testing)
-- [Troubleshooting](#-troubleshooting)
-- [Đóng góp](#-đóng-góp)
+**Blog Authentication System** là một enterprise-grade authentication solution được xây dựng với:
 
-## 🎯 Tổng quan
+- **🔧 Backend**: NestJS + TypeORM + MySQL
+- **🎨 Frontend**: Next.js + TypeScript + Tailwind CSS
+- **🔐 Security**: JWT Authentication + Bcrypt + Input Validation
+- **⚙️ DevOps**: Centralized Environment Management + Auto-generation Tools
 
-Blog Authentication System là một ứng dụng web hoàn chỉnh bao gồm:
+### � **Project Status**
 
-- **Backend API** (NestJS): RESTful API với JWT authentication
-- **Frontend Web** (Next.js): Giao diện người dùng responsive với TypeScript
-- **Database** (MySQL): Lưu trữ dữ liệu user và posts
-- **Security**: Mã hóa mật khẩu, JWT tokens, input validation
+- ✅ **MVP Complete**: Authentication system fully functional
+- 🚧 **In Progress**: Blog post management features
+- 📋 **Planned**: Advanced features (comments, social, admin panel)
 
-## ✨ Tính năng
+---
 
-### 🔐 Authentication
+## 🚀 Quick Start
 
-- ✅ User registration với validation mạnh mẽ
-- ✅ JWT-based login/logout system
-- ✅ Password hashing với bcrypt (12 rounds)
-- ✅ Protected routes và middleware
-- ✅ User profile management (GET/PUT)
-- ✅ Role-based access control (admin, user, moderator)
+### **Prerequisites**
 
-### 🎨 Frontend Features
+- Node.js 16+ • MySQL 8.0+ • Git
 
-- ✅ Responsive design với Tailwind CSS
-- ✅ Form validation với react-hook-form + yup
-- ✅ Custom authentication hooks (useAuth)
-- ✅ Layout components (Header, Sidebar, Footer)
-- ✅ Error handling và loading states
-- ✅ Cookie-based token management
+### **5-Minute Setup**
 
-### 🛠️ Technical Features
+```bash
+# 1. Clone & Setup
+git clone <your-repo-url>
+cd Blog_Project
+cp .env.example .env  # Edit với thông tin thật
 
-- ✅ TypeORM integration với MySQL
-- ✅ Global validation pipes
-- ✅ CORS configuration
-- ✅ **Centralized Environment Management** 🔧
-- ✅ RESTful API với versioning (/api/v1/)
-- ✅ Comprehensive error handling
+# 2. Generate Secure Environment
+node generate-jwt-secret.js  # Auto-generate JWT_SECRET
+node setup-env.js           # Create backend/frontend env files
 
-### 🔧 Environment Management
+# 3. Database Setup
+mysql -u root -p
+CREATE DATABASE blog_db;
 
-- ✅ **Centralized Configuration**: Tất cả env variables trong 1 file
-- ✅ **Auto-generation**: Scripts tự động tạo env files cho backend/frontend
-- ✅ **Cross-platform**: Node.js và PowerShell scripts
-- ✅ **Security**: Template safe to commit, actual values protected
-- ✅ **Developer Experience**: One command setup
+# 4. Start Backend
+cd blog-backend && npm install && npm run start:dev
 
-## 🏗️ Kiến trúc hệ thống
+# 5. Start Frontend (new terminal)
+cd blog-frontend && npm install && npm run dev
+```
+
+**🎉 Done!** Access http://localhost:3001
+
+> **Need detailed setup?** → [📖 Complete Setup Guide](docs/SETUP_COMPLETE.md)
+
+---
+
+## 📖 Documentation System
+
+Our documentation follows a **hierarchical, purpose-driven structure**:
+
+### 📚 **Level 1: Overview & Quick Access**
+
+| Document                       | Purpose                                     | Target Audience                |
+| ------------------------------ | ------------------------------------------- | ------------------------------ |
+| **[README.md](README.md)**     | Project overview, quick start, architecture | All users, first-time visitors |
+| **[SECURITY.md](SECURITY.md)** | Security guidelines, best practices         | Developers, security auditors  |
+
+### 📋 **Level 2: Detailed Guides**
+
+| Document                                               | Purpose                             | Target Audience                  |
+| ------------------------------------------------------ | ----------------------------------- | -------------------------------- |
+| **[📖 Complete Setup Guide](docs/SETUP_COMPLETE.md)**  | Step-by-step setup từ A-Z           | New developers, deployment teams |
+| **[⚙️ Environment Setup](docs/ENVIRONMENT_SETUP.md)**  | Environment management system       | DevOps, configuration management |
+| **[🏗️ Backend Architecture](docs/BACKEND_DETAILS.md)** | API architecture, modules, database | Backend developers               |
+
+### 🧪 **Level 3: Operational Guides**
+
+| Document                                  | Purpose                              | Target Audience       |
+| ----------------------------------------- | ------------------------------------ | --------------------- |
+| **[🎮 Demo Script](docs/DEMO_SCRIPT.md)** | 5-minute demo flow for presentations | Sales, demos, testing |
+| **[🚀 How to Run](docs/HOW_TO_RUN.md)**   | Runtime commands, deployment         | Operations, CI/CD     |
+| **[📋 Setup Guide](docs/SETUP_GUIDE.md)** | Feature checklist, project status    | Project managers, QA  |
+
+### 🎯 **Documentation Navigation Logic:**
+
+```
+🔍 Need quick overview? → README.md (this file)
+⚡ Want to start coding? → docs/SETUP_COMPLETE.md
+🔧 Setting up env? → docs/ENVIRONMENT_SETUP.md
+🏗️ Understanding backend? → docs/BACKEND_DETAILS.md
+🎮 Need to demo? → docs/DEMO_SCRIPT.md
+🚨 Troubleshooting? → Any file has troubleshooting section
+```
+
+---
+
+## 🏗️ System Architecture
+
+### **Technology Stack**
 
 ```mermaid
 graph TB
-    A[Next.js Frontend<br/>Port 3001] --> B[NestJS Backend<br/>Port 3000]
-    B --> C[MySQL Database<br/>Port 3306]
-
     subgraph "Frontend Layer"
-        A1[React Components]
-        A2[Authentication Context]
-        A3[API Services]
-        A4[Form Validation]
+        A[Next.js 13+ App Router]
+        B[TypeScript + Tailwind CSS]
+        C[React Hook Form + Yup]
+        D[Custom Authentication Context]
     end
 
     subgraph "Backend Layer"
-        B1[Auth Module]
-        B2[Users Module]
-        B3[Posts Module]
-        B4[JWT Strategy]
+        E[NestJS Framework]
+        F[JWT Strategy + Guards]
+        G[TypeORM + MySQL]
+        H[Class Validator + Transform]
     end
 
-    subgraph "Data Layer"
-        C1[Users Table]
-        C2[Posts Table]
-        C3[TypeORM Entities]
+    subgraph "Security Layer"
+        I[Bcrypt Password Hashing]
+        J[JWT Token Management]
+        K[CORS Configuration]
+        L[Input Validation & Sanitization]
     end
 
-    A1 --> A2
-    A2 --> A3
-    A3 --> B1
-    B1 --> B4
-    B2 --> C1
+    subgraph "Development Layer"
+        M[Centralized Environment Management]
+        N[Auto-generation Scripts]
+        O[Comprehensive Documentation]
+        P[Testing & Demo Scripts]
+    end
+
+    A --> E
+    B --> F
+    C --> G
+    D --> H
+    E --> I
+    F --> J
+    G --> K
+    H --> L
 ```
 
-## 🚀 Cài đặt nhanh
+### **Data Flow Architecture**
 
-### Yêu cầu hệ thống
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend (Next.js)
+    participant B as Backend (NestJS)
+    participant D as Database (MySQL)
 
-- Node.js 16+
-- MySQL 8.0+
-- npm hoặc yarn
-
-### 1. Clone repository
-
-```bash
-git clone <repository-url>
-cd Blog_Project
+    U->>F: 1. Register/Login Request
+    F->>F: 2. Form Validation (react-hook-form + yup)
+    F->>B: 3. API Call with validated data
+    B->>B: 4. DTO Validation (class-validator)
+    B->>B: 5. Password Hashing (bcrypt)
+    B->>D: 6. Store User Data
+    D-->>B: 7. User Created/Retrieved
+    B->>B: 8. Generate JWT Token
+    B-->>F: 9. Return JWT + User Data
+    F->>F: 10. Store Token (cookies)
+    F-->>U: 11. Success Response
 ```
 
-### 2. Setup Database
-
-```sql
-CREATE DATABASE blog_db;
-```
-
-### 3. Setup Environment (Centralized)
-
-```bash
-# Copy template environment file
-cp .env.example .env
-
-# Cập nhật thông tin thật trong .env
-# DB_PASSWORD=your_mysql_password
-# JWT_SECRET=your_jwt_secret_key
-# NEXTAUTH_SECRET=your_nextauth_secret
-
-# Tự động tạo env files cho backend/frontend
-node setup-env.js
-```
-
-### 4. Setup Backend
-
-```bash
-cd blog-backend
-
-# Cài đặt dependencies
-npm install
-
-# Environment đã được tạo từ bước 3
-# Chạy backend
-npm run start:dev
-```
-
-### 5. Setup Frontend (Terminal mới)
-
-```bash
-cd blog-frontend
-
-# Cài đặt dependencies
-npm install
-
-# Environment đã được tạo từ bước 3
-# Chạy frontend
-npm run dev
-```
-
-### 6. Truy cập ứng dụng
-
-- **Frontend**: http://localhost:3001
-- **Backend API**: http://localhost:3000/api/v1
-- **Health Check**: http://localhost:3000/api/v1/health
-
-## 📚 API Documentation
-
-### Authentication Endpoints
-
-| Method | Endpoint                | Description      | Auth Required |
-| ------ | ----------------------- | ---------------- | ------------- |
-| POST   | `/api/v1/auth/register` | Đăng ký user mới | ❌            |
-| POST   | `/api/v1/auth/login`    | Đăng nhập user   | ❌            |
-| POST   | `/api/v1/auth/logout`   | Đăng xuất user   | ✅            |
-
-### User Management
-
-| Method | Endpoint                | Description           | Auth Required |
-| ------ | ----------------------- | --------------------- | ------------- |
-| GET    | `/api/v1/users/profile` | Lấy thông tin profile | ✅            |
-| PUT    | `/api/v1/users/profile` | Cập nhật profile      | ✅            |
-
-### Posts (Placeholder)
-
-| Method | Endpoint                 | Description        | Auth Required |
-| ------ | ------------------------ | ------------------ | ------------- |
-| GET    | `/api/v1/posts`          | Lấy tất cả posts   | ❌            |
-| GET    | `/api/v1/posts/my-posts` | Lấy posts của user | ✅            |
-
-### Utility
-
-| Method | Endpoint         | Description  | Auth Required |
-| ------ | ---------------- | ------------ | ------------- |
-| GET    | `/api/v1/health` | Health check | ❌            |
-
-### Sample API Requests
-
-#### Registration
-
-```json
-POST /api/v1/auth/register
-{
-  "email": "user@example.com",
-  "password": "password123",
-  "name": "John Doe",
-  "bio": "Passionate blogger"
-}
-```
-
-#### Login
-
-```json
-POST /api/v1/auth/login
-{
-  "email": "user@example.com",
-  "password": "password123"
-}
-```
-
-## 🎨 Frontend Features
-
-### Pages
-
-- **Homepage** (`/`): Landing page với overview
-- **Registration** (`/register`): Form đăng ký với validation
-- **Login** (`/login`): Form đăng nhập
-
-### Components
-
-- **Layout Components**: Header, Sidebar, Footer với responsive design
-- **Form Components**: Registration/Login forms với validation
-- **Authentication**: useAuth hook với context management
-
-### Form Validation
-
-```typescript
-// Registration validation schema
-const registrationSchema = yup.object({
-  name: yup.string().required("Name is required").min(2),
-  email: yup.string().required("Email is required").email(),
-  password: yup.string().required("Password is required").min(6),
-  confirmPassword: yup
-    .string()
-    .required("Confirm Password is required")
-    .oneOf([yup.ref("password")], "Passwords must match"),
-});
-```
-
-## 🔒 Bảo mật
-
-### Password Security
-
-- **Bcrypt hashing** với 12 salt rounds
-- **Minimum password length**: 6 characters
-- **Password confirmation** validation
-
-### JWT Security
-
-- **Token expiration**: 24 hours
-- **Secure token storage**: HTTP-only cookies
-- **Token refresh** mechanism (planned)
-
-### Input Validation
-
-- **Class-validator** decorators cho DTOs
-- **Global validation pipe** với whitelist
-- **XSS protection** với input sanitization
-
-### API Security
-
-- **CORS configuration** cho frontend integration
-- **Rate limiting** (planned)
-- **Request logging** (planned)
-
-### Environment Security
-
-- **Environment variables** cho sensitive data
-- **Git ignore** cho .env files
-- **Separate configs** cho development/production
-
-## 📁 Cấu trúc project
+### **Project Structure Logic**
 
 ```
-Blog_Project/
-├── 📁 blog-backend/          # NestJS Backend API
-│   ├── 📁 src/
-│   │   ├── 📁 auth/          # Authentication module
-│   │   │   ├── auth.controller.ts
-│   │   │   ├── auth.service.ts
-│   │   │   ├── auth.module.ts
-│   │   │   ├── jwt.strategy.ts
-│   │   │   └── jwt-auth.guard.ts
-│   │   ├── 📁 users/         # Users module
-│   │   │   ├── users.controller.ts
-│   │   │   ├── users.service.ts
-│   │   │   └── users.module.ts
-│   │   ├── 📁 posts/         # Posts module (placeholder)
-│   │   ├── 📁 entities/      # Database entities
-│   │   │   └── user.entity.ts
-│   │   ├── 📁 dto/           # Data Transfer Objects
-│   │   │   └── auth.dto.ts
-│   │   ├── 📁 config/        # Configuration files
-│   │   │   └── database.config.ts
-│   │   ├── app.module.ts
-│   │   └── main.ts
-│   ├── .env.example          # Environment template
-│   ├── package.json
-│   └── README_BLOG.md
-│
-├── 📁 blog-frontend/         # Next.js Frontend
-│   ├── 📁 src/
-│   │   ├── 📁 app/           # Next.js 13+ app directory
-│   │   │   ├── page.tsx      # Homepage
-│   │   │   ├── layout.tsx    # Root layout
-│   │   │   ├── login/
-│   │   │   │   └── page.tsx  # Login page
-│   │   │   └── register/
-│   │   │       └── page.tsx  # Registration page
-│   │   ├── 📁 components/    # React components
-│   │   │   └── 📁 layout/    # Layout components
-│   │   │       ├── Header.tsx
-│   │   │       ├── Sidebar.tsx
-│   │   │       ├── Footer.tsx
-│   │   │       └── Layout.tsx
-│   │   ├── 📁 hooks/         # Custom hooks
-│   │   │   └── useAuth.tsx   # Authentication hook
-│   │   ├── 📁 services/      # API services
-│   │   │   └── api.ts        # API client
-│   │   └── 📁 types/         # TypeScript types
-│   ├── .env.example          # Environment template
-│   ├── package.json
-│   └── README.md
-│
-├── 📄 .gitignore             # Git ignore rules (centralized)
-├── 📄 SECURITY.md            # Security guidelines
-└── 📄 README.md              # This file
+📁 Blog_Project/                 ← Root (Git repository)
+├── 📄 README.md                ← Main entry point (this file)
+├── 📄 SECURITY.md              ← Security guidelines
+├── 📁 docs/                    ← Detailed documentation
+│   ├── SETUP_COMPLETE.md       ← Complete setup guide
+│   ├── BACKEND_DETAILS.md      ← Backend architecture
+│   └── ENVIRONMENT_SETUP.md    ← Environment management
+├── ⚙️ Environment Management   ← Centralized configuration
+│   ├── .env.example            ← Safe template
+│   ├── setup-env.js/ps1        ← Auto-generation
+│   └── generate-jwt-secret.js/ps1
+├── 📁 blog-backend/            ← NestJS API Server
+│   ├── 📁 src/auth/            ← Authentication module
+│   ├── 📁 src/users/           ← User management
+│   └── 📁 src/config/          ← App configuration
+└── 📁 blog-frontend/           ← Next.js Web Application
+    ├── 📁 src/app/             ← App Router pages
+    ├── 📁 src/components/      ← React components
+    └── 📁 src/hooks/           ← Custom hooks (useAuth)
 ```
 
-## 🗄️ Database Schema
+---
 
-### Users Table
+## ✨ Core Features
 
-```sql
-CREATE TABLE users (
-  id VARCHAR(36) PRIMARY KEY,              -- UUID
-  email VARCHAR(255) UNIQUE NOT NULL,      -- Unique email
-  password VARCHAR(255) NOT NULL,          -- Bcrypt hashed
-  name VARCHAR(255) NOT NULL,              -- Display name
-  avatar VARCHAR(255),                     -- Profile picture URL
-  role ENUM('admin', 'user', 'moderator') DEFAULT 'user',
-  bio VARCHAR(500),                        -- User biography
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-```
+### 🔐 **Authentication System**
 
-### Posts Table (Planned)
+- ✅ **Registration**: Email validation, password strength, duplicate prevention
+- ✅ **Login**: JWT-based authentication with secure cookie storage
+- ✅ **Profile Management**: View/update user information and avatar
+- ✅ **Security**: Bcrypt hashing (12 rounds), XSS protection, CORS configuration
+- ✅ **Authorization**: Role-based access control (admin/user/moderator)
 
-```sql
-CREATE TABLE posts (
-  id VARCHAR(36) PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  content TEXT NOT NULL,
-  author_id VARCHAR(36) NOT NULL,
-  status ENUM('draft', 'published', 'archived') DEFAULT 'draft',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (author_id) REFERENCES users(id)
-);
-```
+### 🎨 **Frontend Experience**
+
+- ✅ **Modern UI**: Responsive design with Tailwind CSS
+- ✅ **Form Management**: react-hook-form + yup validation
+- ✅ **State Management**: Custom useAuth hook with React Context
+- ✅ **User Experience**: Loading states, error handling, success feedback
+- ✅ **Navigation**: Protected routes, automatic redirects
+
+### ⚙️ **Developer Experience**
+
+- ✅ **Environment Management**: One-command setup with auto-generation
+- ✅ **Documentation**: Hierarchical, purpose-driven documentation system
+- ✅ **Testing**: Automated API testing scripts + manual test flows
+- ✅ **Security**: JWT secret generation, environment protection
+- ✅ **Development**: Hot reload, TypeScript support, comprehensive error handling
+
+---
 
 ## 🧪 Demo & Testing
 
-### Automated Testing
+### **🎮 Quick Demo Flow**
 
 ```bash
-# Backend: Test tất cả API endpoints
+# 1. Start both servers
+cd blog-backend && npm run start:dev
+cd blog-frontend && npm run dev  # New terminal
+
+# 2. Test registration (http://localhost:3001/register)
+Name: John Doe
+Email: john@example.com
+Password: password123
+Bio: Full-stack developer
+
+# 3. Test login (http://localhost:3001/login)
+Email: john@example.com
+Password: password123
+
+# 4. Verify authentication
+# → Should redirect to homepage with user info in sidebar
+# → JWT token stored in secure cookies
+# → Can access/update profile information
+```
+
+### **🧪 Automated Testing**
+
+```bash
+# Backend API testing
 cd blog-backend
-node test-api.js
+node test-api.js  # Tests all endpoints automatically
+
+# Postman collection testing
+# Import: Blog_API_Collection.postman_collection.json
+# Set base_url = http://localhost:3000
+# Run collection → All tests should pass
 ```
 
-### Postman Collection
+> **📖 Detailed Testing Guide**: [Demo Script](docs/DEMO_SCRIPT.md)
 
-1. Import file: `blog-backend/Blog_API_Collection.postman_collection.json`
-2. Set environment variable: `base_url = http://localhost:3000`
-3. Run collection để test tất cả endpoints
+---
 
-### Manual Testing Flow
+## 🔧 Environment Management System
 
-1. **Start services**: Backend (3000) + Frontend (3001)
-2. **Register**: Tạo tài khoản mới tại `/register`
-3. **Login**: Đăng nhập tại `/login`
-4. **Profile**: Kiểm tra/cập nhật profile
-5. **API Testing**: Sử dụng Postman collection
+### **🎯 Centralized Configuration Philosophy**
 
-### Demo Script
-
-Xem chi tiết trong file `blog-backend/DEMO_SCRIPT.md` để có demo flow hoàn chỉnh (5-10 phút).
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-#### Database Connection Error
-
-```
-Error: Access denied for user 'root'@'localhost'
-```
-
-**Solution**: Cập nhật `DB_PASSWORD` trong file `.env`
-
-#### Port Already in Use
-
-```
-Error: listen EADDRINUSE :::3000
-```
-
-**Solutions**:
-
-- Backend: Đổi `PORT=3001` trong `.env`
-- Frontend: `npm run dev -- -p 3002`
-- Kill process: `lsof -ti:3000 | xargs kill -9` (Mac/Linux)
-
-#### JWT Token Issues
-
-```
-Error: Unauthorized
-```
-
-**Solutions**:
-
-- Kiểm tra `JWT_SECRET` trong `.env`
-- Token có thể expired, login lại
-- Đảm bảo token được gửi trong header
-
-#### Module Not Found (Frontend)
-
-```
-Cannot find module '@/hooks/useAuth'
-```
-
-**Solution**: Kiểm tra `tsconfig.json` có paths mapping đúng
-
-#### CORS Issues
-
-```
-Access to fetch blocked by CORS policy
-```
-
-**Solution**: Đảm bảo `FRONTEND_URL` trong backend `.env` đúng
-
-### Debug Steps
-
-1. ✅ MySQL server đang chạy?
-2. ✅ Ports 3000, 3001 available?
-3. ✅ File `.env` configured đúng?
-4. ✅ Dependencies đã install?
-5. ✅ Check terminal logs cho error details
-
-### Environment Checklist
+Our environment management follows **"Single Source of Truth"** principle:
 
 ```bash
-# Backend requirements
-✅ Node.js 16+
-✅ MySQL 8.0+
-✅ .env file with DB credentials
-✅ Port 3000 available
-
-# Frontend requirements
-✅ Node.js 16+
-✅ .env.local with API URL
-✅ Port 3001 available
-✅ Backend running on 3000
+📄 .env.example (Template - Safe to commit)
+     ↓ [Copy & Edit]
+📄 .env (Main config - Private)
+     ↓ [Auto-generate via setup-env.js]
+📄 blog-backend/.env (Backend config)
+📄 blog-frontend/.env.local (Frontend config)
 ```
 
-## 🚀 Roadmap
+### **⚡ Auto-Generation Workflow**
 
-### Phase 1 - COMPLETED ✅
+```bash
+# 1. Create your main environment file
+cp .env.example .env
+# Edit .env with your actual values
 
-- [x] User Registration/Login system
-- [x] JWT Authentication
-- [x] Basic user profile management
-- [x] Frontend layout components
-- [x] API integration
+# 2. Generate secure JWT secret
+node generate-jwt-secret.js
+# → Updates .env with cryptographically secure JWT_SECRET
 
-### Phase 2 - IN PROGRESS 🚧
+# 3. Auto-generate sub-environment files
+node setup-env.js
+# → Creates blog-backend/.env
+# → Creates blog-frontend/.env.local
+# → Maps variables correctly to each application
 
-- [ ] Posts CRUD operations
-- [ ] Rich text editor for posts
-- [ ] File upload for avatars
-- [ ] Email verification
-- [ ] Password reset functionality
+# 4. Verify setup
+ls blog-backend/.env blog-frontend/.env.local
+# Both files should exist and contain correct mappings
+```
 
-### Phase 3 - PLANNED 📋
+### **🔐 Security Features**
 
-- [ ] Comments system
-- [ ] User roles và permissions
-- [ ] Search và filtering
-- [ ] Social features (follow/unfollow)
+- ✅ **Template Safety**: .env.example contains no real secrets
+- ✅ **Git Protection**: .gitignore prevents committing sensitive files
+- ✅ **Cross-Platform**: Scripts work on Windows (PowerShell) and Unix (Node.js)
+- ✅ **Validation**: Scripts verify required variables exist
+- ✅ **Documentation**: Clear mapping of variables to applications
+
+> **📖 Environment Details**: [Environment Setup Guide](docs/ENVIRONMENT_SETUP.md)
+
+---
+
+## 📊 API Reference
+
+### **Authentication Endpoints**
+
+| Method | Endpoint                | Description       | Body                            | Response        |
+| ------ | ----------------------- | ----------------- | ------------------------------- | --------------- |
+| `POST` | `/api/v1/auth/register` | User registration | `{email, password, name, bio?}` | `{user, token}` |
+| `POST` | `/api/v1/auth/login`    | User login        | `{email, password}`             | `{user, token}` |
+| `POST` | `/api/v1/auth/logout`   | User logout       | -                               | `{message}`     |
+
+### **User Management**
+
+| Method | Endpoint                | Description      | Auth   | Response |
+| ------ | ----------------------- | ---------------- | ------ | -------- |
+| `GET`  | `/api/v1/users/profile` | Get user profile | 🔒 JWT | `{user}` |
+| `PUT`  | `/api/v1/users/profile` | Update profile   | 🔒 JWT | `{user}` |
+
+### **System Endpoints**
+
+| Method | Endpoint         | Description  | Response              |
+| ------ | ---------------- | ------------ | --------------------- |
+| `GET`  | `/api/v1/health` | Health check | `{status, timestamp}` |
+
+### **🔗 API Usage Examples**
+
+```typescript
+// Registration
+const response = await fetch("/api/v1/auth/register", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    email: "user@example.com",
+    password: "securePassword123",
+    name: "John Doe",
+    bio: "Software Developer",
+  }),
+});
+
+// Login with JWT storage
+const loginResponse = await fetch("/api/v1/auth/login", {
+  method: "POST",
+  credentials: "include", // Important for cookies
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    email: "user@example.com",
+    password: "securePassword123",
+  }),
+});
+
+// Protected route access
+const profileResponse = await fetch("/api/v1/users/profile", {
+  credentials: "include", // JWT from cookies
+});
+```
+
+> **📖 Complete API Docs**: [Backend Architecture](docs/BACKEND_DETAILS.md)
+
+---
+
+## 🚨 Troubleshooting & Support
+
+### **🔧 Common Issues**
+
+<details>
+<summary><strong>Database Connection Failed</strong></summary>
+
+```bash
+Error: Access denied for user 'root'@'localhost'
+
+# Solutions:
+1. Check MySQL is running: net start mysql (Windows)
+2. Verify credentials in .env file
+3. Test connection: mysql -u root -p
+4. Recreate user if needed:
+   CREATE USER 'blog_user'@'localhost' IDENTIFIED BY 'password';
+   GRANT ALL PRIVILEGES ON blog_db.* TO 'blog_user'@'localhost';
+```
+
+</details>
+
+<details>
+<summary><strong>Port Already in Use</strong></summary>
+
+```bash
+Error: listen EADDRINUSE :::3000
+
+# Solutions:
+1. Kill existing process: lsof -ti:3000 | xargs kill -9
+2. Change port in .env: PORT=3001
+3. Use different ports: npm run dev -- -p 3002
+```
+
+</details>
+
+<details>
+<summary><strong>Environment Variables Missing</strong></summary>
+
+```bash
+Error: JWT_SECRET is not defined
+
+# Solutions:
+1. Regenerate JWT secret: node generate-jwt-secret.js
+2. Recreate env files: node setup-env.js
+3. Verify files exist: ls blog-backend/.env
+```
+
+</details>
+
+### **📞 Getting Help**
+
+- **📚 Documentation**: Check [docs/](docs/) folder for detailed guides
+- **🔍 Troubleshooting**: Each documentation file has troubleshooting section
+- **🐛 Issues**: Create GitHub issue with error details and environment info
+- **💬 Discussions**: Use GitHub Discussions for questions and best practices
+
+### **🚀 Quick Reset Commands**
+
+```bash
+# Complete reset and restart
+pkill -f node                    # Kill all Node processes
+node setup-env.js               # Regenerate environment files
+cd blog-backend && npm run start:dev    # Restart backend
+cd blog-frontend && npm run dev         # Restart frontend (new terminal)
+```
+
+---
+
+## 🎯 Roadmap & Future Development
+
+### **📋 Current Status**
+
+- ✅ **MVP Complete**: Full authentication system operational
+- ✅ **Documentation**: Comprehensive, hierarchical documentation system
+- ✅ **Developer Experience**: One-command setup and environment management
+- ✅ **Security**: Industry-standard security practices implemented
+
+### **🚧 Phase 2: Content Management** (In Progress)
+
+- [ ] Blog post CRUD operations
+- [ ] Rich text editor integration
+- [ ] File upload for images and avatars
+- [ ] Post categories and tags
+
+### **📈 Phase 3: Social Features** (Planned)
+
+- [ ] User-to-user interactions (follow/unfollow)
+- [ ] Comments and reactions system
 - [ ] Real-time notifications
+- [ ] Social media login integration
 
-### Phase 4 - FUTURE 🔮
+### **🔮 Phase 4: Advanced Features** (Future)
 
-- [ ] Social media login (Google, Facebook)
+- [ ] Admin dashboard with user management
+- [ ] Analytics and reporting
 - [ ] Two-factor authentication
-- [ ] Admin dashboard
-- [ ] Analytics và reporting
 - [ ] Mobile app (React Native)
+- [ ] Microservices architecture migration
 
-## 🤝 Đóng góp
+---
 
-### Development Workflow
+## 🤝 Contributing & Community
 
-1. Fork the project
-2. Create feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open Pull Request
+### **🔧 Development Workflow**
 
-### Code Standards
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Follow code standards: TypeScript strict mode, ESLint, Prettier
+4. Add tests for new features
+5. Update documentation if needed
+6. Submit Pull Request with detailed description
 
-- **TypeScript**: Strict mode enabled
-- **ESLint**: Airbnb configuration
-- **Prettier**: Code formatting
-- **Conventional Commits**: Commit message format
+### **📝 Code Standards**
 
-### Testing Requirements
+- **TypeScript**: Strict mode enabled with comprehensive type definitions
+- **ESLint**: Airbnb configuration with custom rules
+- **Prettier**: Consistent code formatting
+- **Testing**: Minimum 80% coverage for new features
+- **Documentation**: Update relevant docs for any changes
 
-- Unit tests cho services
-- Integration tests cho controllers
-- E2E tests cho critical flows
-- Minimum 80% coverage
+### **👥 Community**
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Support
-
-- **Documentation**: Check README files trong từng module
-- **Issues**: Create GitHub issue với detailed description
+- **Discussions**: GitHub Discussions for questions and ideas
+- **Issues**: Bug reports and feature requests
 - **Security**: Report security issues privately
-- **Discussions**: Sử dụng GitHub Discussions cho questions
+- **Documentation**: Help improve and translate documentation
+
+---
+
+## 📄 License & Credits
+
+### **📋 License**
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+### **🙏 Acknowledgments**
+
+- **NestJS Team** - Excellent Node.js framework
+- **Vercel Team** - Amazing Next.js framework
+- **TypeORM Team** - Powerful ORM for TypeScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **Open Source Community** - For inspiration and best practices
 
 ---
 
 <div align="center">
 
-**Made with ❤️ by DTA**
+## 🎉 Ready to Get Started?
 
-[⬆ Về đầu trang](#-blog-authentication-system)
+**Choose your path:**
+
+[🚀 **Quick Start**](#-quick-start) • [📖 **Complete Setup Guide**](docs/SETUP_COMPLETE.md) • [🎮 **Demo Script**](docs/DEMO_SCRIPT.md)
+
+**Made with ❤️ by DTA** • **Powered by NestJS + Next.js**
+
+[⬆ Back to Top](#-blog-authentication-system)
 
 </div>
