@@ -9,18 +9,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { authAPI, usersAPI } from "@/services/api";
-
-interface User {
-  id: string;
-  email: string;
-  name: string;
-  avatar?: string;
-  role: string;
-  bio?: string;
-  created_at: string;
-  updated_at: string;
-}
+import { authAPI, usersAPI, User } from "@/services/api";
 
 interface AuthContextType {
   user: User | null;
@@ -31,6 +20,7 @@ interface AuthContextType {
     password: string;
     name: string;
     bio?: string;
+    avatar?: string;
   }) => Promise<void>;
   logout: () => void;
   updateProfile: (data: {
@@ -38,9 +28,57 @@ interface AuthContextType {
     bio?: string;
     avatar?: string;
   }) => Promise<void>;
+  refreshUser: () => Promise<void>;
+  deleteAccount: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// Helper functions for cookie management
+const setCookie = (name: string, value: string, days: number = 7) => {
+  const expires = new Date();
+  expires.setDate(expires.getDate() + days);
+
+  if (typeof document !== "undefined") {
+    document.cookie = `${name}=${value}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+  }
+
+  // Also try js-cookie as backup
+  try {
+    Cookies.set(name, value, {
+      expires: days,
+      secure: false,
+      sameSite: "lax",
+    });
+  } catch (e) {
+    console.error("js-cookie failed:", e);
+  }
+};
+
+const getCookie = (name: string): string | null => {
+  // Try js-cookie first
+  let value = Cookies.get(name);
+
+  // If not found, try document.cookie
+  if (!value && typeof document !== "undefined") {
+    const cookies = document.cookie.split(";");
+    const cookie = cookies.find((cookie) =>
+      cookie.trim().startsWith(`${name}=`)
+    );
+    if (cookie) {
+      value = cookie.split("=")[1];
+    }
+  }
+
+  return value || null;
+};
+
+const removeCookie = (name: string) => {
+  Cookies.remove(name);
+  if (typeof document !== "undefined") {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  }
+};
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -51,14 +89,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const loadUser = async () => {
       try {
-        const token = Cookies.get("access_token");
+        const token = getCookie("access_token");
+        console.log("Loading user, token found:", !!token);
         if (token) {
-          const userData = await usersAPI.getProfile();
-          setUser(userData);
+          const response = await usersAPI.getProfile();
+          if (response.success) {
+            setUser(response.data);
+            console.log("User loaded successfully:", response.data);
+          }
         }
       } catch (error) {
         console.error("Failed to load user:", error);
-        Cookies.remove("access_token");
+        removeCookie("access_token");
       } finally {
         setLoading(false);
       }
@@ -69,20 +111,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
+      setLoading(true);
       const response = await authAPI.login({ email, password });
 
-      // Store token in cookie
-      Cookies.set("access_token", response.access_token, {
-        expires: 7, // 7 days
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-      });
+      if (response.success) {
+        // Store token using helper function
+        setCookie("access_token", response.data.access_token, 7);
+        console.log("Cookie set, all cookies:", document.cookie);
 
-      setUser(response.user);
-      router.push("/");
-    } catch (error: unknown) {
-      const err = error as { response?: { data?: { message?: string } } };
-      throw new Error(err.response?.data?.message || "Login failed");
+        // Set user immediately in context
+        setUser(response.data.user);
+
+        console.log("Login successful, user set:", response.data.user);
+        console.log("Token saved:", response.data.access_token);
+
+        // Don't redirect here, let the login page handle it
+        return;
+      }
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || error.message || "Login failed";
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -91,33 +142,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     password: string;
     name: string;
     bio?: string;
+    avatar?: string;
   }) => {
     try {
+      setLoading(true);
       const response = await authAPI.register(data);
 
-      // Store token in cookie
-      Cookies.set("access_token", response.access_token, {
-        expires: 7, // 7 days
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-      });
+      if (response.success) {
+        // Store token using helper function (same as login)
+        setCookie("access_token", response.data.access_token, 7);
+        console.log("Cookie set, all cookies:", document.cookie);
 
-      setUser(response.user);
-      router.push("/");
-    } catch (error: unknown) {
-      const err = error as { response?: { data?: { message?: string } } };
-      throw new Error(err.response?.data?.message || "Registration failed");
+        setUser(response.data.user);
+
+        console.log("Registration successful, user set:", response.data.user);
+        console.log("Token saved:", response.data.access_token);
+
+        // Don't redirect here, let the register page handle it
+        return;
+      }
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || error.message || "Registration failed";
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
     try {
-      authAPI.logout().catch(() => {
-        // Ignore logout API errors
-      });
+      setLoading(true);
+      await authAPI.logout();
+    } catch (error) {
+      // Ignore logout API errors
+      console.error("Logout API error:", error);
     } finally {
-      Cookies.remove("access_token");
+      // Clear cookie using helper function
+      removeCookie("access_token");
       setUser(null);
+      setLoading(false);
       router.push("/login");
     }
   };
@@ -128,11 +192,48 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     avatar?: string;
   }) => {
     try {
-      const updatedUser = await usersAPI.updateProfile(data);
-      setUser(updatedUser);
-    } catch (error: unknown) {
-      const err = error as { response?: { data?: { message?: string } } };
-      throw new Error(err.response?.data?.message || "Profile update failed");
+      const response = await usersAPI.updateProfile(data);
+      if (response.success) {
+        setUser(response.data);
+      }
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Profile update failed";
+      throw new Error(errorMessage);
+    }
+  };
+
+  const refreshUser = async () => {
+    try {
+      const response = await usersAPI.getProfile();
+      if (response.success) {
+        setUser(response.data);
+      }
+    } catch (error) {
+      console.error("Failed to refresh user:", error);
+      // Don't throw error, just log it
+    }
+  };
+
+  const deleteAccount = async () => {
+    try {
+      setLoading(true);
+      const response = await usersAPI.deleteAccount();
+      if (response.success) {
+        Cookies.remove("access_token");
+        setUser(null);
+        router.push("/login");
+      }
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Account deletion failed";
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -143,6 +244,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     register,
     logout,
     updateProfile,
+    refreshUser,
+    deleteAccount,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

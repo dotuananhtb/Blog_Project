@@ -1,9 +1,53 @@
 {
   "info": {
     "name": "Blog API Collection",
-    "description": "API endpoints for Blog Authentication System",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "description": "Complete API endpoints for Blog System with Authentication and User Profile Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "2.0.0"
   },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
   "item": [
     {
       "name": "Health Check",
@@ -14,14 +58,34 @@
           "raw": "{{base_url}}/api/v1/health",
           "host": ["{{base_url}}"],
           "path": ["api", "v1", "health"]
-        }
-      }
+        },
+        "description": "Check if the API server is running"
+      },
+      "response": []
     },
     {
-      "name": "Auth",
+      "name": "Authentication",
       "item": [
         {
           "name": "Register User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.access_token) {",
+                  "        pm.collectionVariables.set('access_token', response.data.access_token);",
+                  "        pm.collectionVariables.set('user_id', response.data.user.id);",
+                  "        console.log('Token saved:', response.data.access_token);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -32,17 +96,42 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\",\n  \"name\": \"John Doe\",\n  \"bio\": \"A passionate blogger\"\n}"
+              "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"name\": \"John Doe\",\n  \"bio\": \"A passionate blogger and developer\",\n  \"avatar\": \"https://via.placeholder.com/150\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
               "raw": "{{base_url}}/api/v1/auth/register",
               "host": ["{{base_url}}"],
               "path": ["api", "v1", "auth", "register"]
-            }
-          }
+            },
+            "description": "Register a new user account"
+          },
+          "response": []
         },
         {
           "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.access_token) {",
+                  "        pm.collectionVariables.set('access_token', response.data.access_token);",
+                  "        pm.collectionVariables.set('user_id', response.data.user.id);",
+                  "        console.log('Login successful, token saved');",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -53,27 +142,21 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+              "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePass123!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
               "raw": "{{base_url}}/api/v1/auth/login",
               "host": ["{{base_url}}"],
               "path": ["api", "v1", "auth", "login"]
             },
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "if (pm.response.code === 200) {",
-                    "    const response = pm.response.json();",
-                    "    pm.environment.set('access_token', response.access_token);",
-                    "}"
-                  ]
-                }
-              }
-            ]
-          }
+            "description": "Login with existing user credentials"
+          },
+          "response": []
         },
         {
           "name": "Logout User",
@@ -89,16 +172,19 @@
               "raw": "{{base_url}}/api/v1/auth/logout",
               "host": ["{{base_url}}"],
               "path": ["api", "v1", "auth", "logout"]
-            }
-          }
+            },
+            "description": "Logout current user and invalidate token"
+          },
+          "response": []
         }
-      ]
+      ],
+      "description": "Authentication endpoints for user registration, login, and logout"
     },
     {
-      "name": "Users",
+      "name": "User Profile",
       "item": [
         {
-          "name": "Get Profile",
+          "name": "Get Current User Profile",
           "request": {
             "method": "GET",
             "header": [
@@ -111,11 +197,13 @@
               "raw": "{{base_url}}/api/v1/users/profile",
               "host": ["{{base_url}}"],
               "path": ["api", "v1", "users", "profile"]
-            }
-          }
+            },
+            "description": "Get the profile of the currently authenticated user"
+          },
+          "response": []
         },
         {
-          "name": "Update Profile",
+          "name": "Update User Profile",
           "request": {
             "method": "PUT",
             "header": [
@@ -130,19 +218,65 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"John Doe Updated\",\n  \"bio\": \"Updated bio - A passionate blogger and developer\"\n}"
+              "raw": "{\n  \"name\": \"John Doe Updated\",\n  \"bio\": \"Updated bio: Senior Full-Stack Developer and Tech Blogger\",\n  \"avatar\": \"https://via.placeholder.com/200\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
               "raw": "{{base_url}}/api/v1/users/profile",
               "host": ["{{base_url}}"],
               "path": ["api", "v1", "users", "profile"]
-            }
-          }
+            },
+            "description": "Update the current user's profile information"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", "{{user_id}}"]
+            },
+            "description": "Get public profile of any user by their ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User Account",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", "profile"]
+            },
+            "description": "Delete the current user's account permanently"
+          },
+          "response": []
         }
-      ]
+      ],
+      "description": "User profile management endpoints"
     },
     {
-      "name": "Posts",
+      "name": "Posts (Coming Soon)",
       "item": [
         {
           "name": "Get All Posts",
@@ -153,8 +287,10 @@
               "raw": "{{base_url}}/api/v1/posts",
               "host": ["{{base_url}}"],
               "path": ["api", "v1", "posts"]
-            }
-          }
+            },
+            "description": "Get all published posts (public endpoint)"
+          },
+          "response": []
         },
         {
           "name": "Get My Posts",
@@ -170,16 +306,45 @@
               "raw": "{{base_url}}/api/v1/posts/my-posts",
               "host": ["{{base_url}}"],
               "path": ["api", "v1", "posts", "my-posts"]
-            }
-          }
+            },
+            "description": "Get posts created by the current user"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"My First Blog Post\",\n  \"content\": \"This is the content of my first blog post. It's about web development and modern technologies.\",\n  \"excerpt\": \"A brief introduction to web development\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/posts",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "posts"]
+            },
+            "description": "Create a new blog post"
+          },
+          "response": []
         }
-      ]
-    }
-  ],
-  "variable": [
-    {
-      "key": "base_url",
-      "value": "http://localhost:3000"
+      ],
+      "description": "Blog posts management endpoints (to be implemented)"
     }
   ]
 }

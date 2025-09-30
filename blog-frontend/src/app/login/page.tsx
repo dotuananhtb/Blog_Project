@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import Layout from "@/components/layout/Layout";
 
@@ -24,7 +25,9 @@ interface FormData {
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const { login } = useAuth();
+  const router = useRouter();
 
   const {
     register,
@@ -37,14 +40,29 @@ export default function LoginPage() {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     setError("");
+    setSuccess("");
 
     try {
       await login(data.email, data.password);
+
+      // If we reach here, login was successful
+      setSuccess("Login successful! Redirecting to dashboard...");
+
+      // Use router instead of window.location to preserve React state
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Test redirect function
+  const testRedirect = () => {
+    console.log("Testing redirect...");
+    router.push("/");
   };
 
   return (
@@ -59,6 +77,12 @@ export default function LoginPage() {
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
               <p className="text-red-600 text-sm">{error}</p>
+            </div>
+          )}
+
+          {success && (
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-md">
+              <p className="text-green-600 text-sm">{success}</p>
             </div>
           )}
 
@@ -150,6 +174,15 @@ export default function LoginPage() {
                 Create one here
               </Link>
             </p>
+
+            {/* Test redirect button */}
+            <button
+              onClick={testRedirect}
+              className="mt-2 text-xs text-gray-500 hover:text-gray-700"
+              type="button"
+            >
+              Test Redirect
+            </button>
           </div>
         </div>
       </div>

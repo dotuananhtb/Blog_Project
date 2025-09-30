@@ -9,12 +9,32 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, // Enable cookies
 });
+
+// Helper function to get cookie (same as in useAuth)
+const getCookie = (name: string): string | null => {
+  // Try js-cookie first
+  let value = Cookies.get(name);
+
+  // If not found, try document.cookie
+  if (!value && typeof document !== "undefined") {
+    const cookies = document.cookie.split(";");
+    const cookie = cookies.find((cookie) =>
+      cookie.trim().startsWith(`${name}=`)
+    );
+    if (cookie) {
+      value = cookie.split("=")[1];
+    }
+  }
+
+  return value || null;
+};
 
 // Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
-    const token = Cookies.get("access_token");
+    const token = getCookie("access_token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -40,6 +60,29 @@ api.interceptors.response.use(
   }
 );
 
+// Types for API responses
+export interface ApiResponse<T = any> {
+  success: boolean;
+  message: string;
+  data: T;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  avatar?: string;
+  bio?: string;
+  role: "USER" | "ADMIN" | "MODERATOR";
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AuthResponse {
+  user: User;
+  access_token: string;
+}
+
 // Auth API calls
 export const authAPI = {
   register: async (data: {
@@ -47,17 +90,21 @@ export const authAPI = {
     password: string;
     name: string;
     bio?: string;
-  }) => {
+    avatar?: string;
+  }): Promise<ApiResponse<AuthResponse>> => {
     const response = await api.post("/api/v1/auth/register", data);
     return response.data;
   },
 
-  login: async (data: { email: string; password: string }) => {
+  login: async (data: {
+    email: string;
+    password: string;
+  }): Promise<ApiResponse<AuthResponse>> => {
     const response = await api.post("/api/v1/auth/login", data);
     return response.data;
   },
 
-  logout: async () => {
+  logout: async (): Promise<ApiResponse<null>> => {
     const response = await api.post("/api/v1/auth/logout");
     return response.data;
   },
@@ -65,7 +112,7 @@ export const authAPI = {
 
 // Users API calls
 export const usersAPI = {
-  getProfile: async () => {
+  getProfile: async (): Promise<ApiResponse<User>> => {
     const response = await api.get("/api/v1/users/profile");
     return response.data;
   },
@@ -74,21 +121,57 @@ export const usersAPI = {
     name?: string;
     bio?: string;
     avatar?: string;
-  }) => {
+  }): Promise<ApiResponse<User>> => {
     const response = await api.put("/api/v1/users/profile", data);
+    return response.data;
+  },
+
+  getUserById: async (id: string): Promise<ApiResponse<User>> => {
+    const response = await api.get(`/api/v1/users/${id}`);
+    return response.data;
+  },
+
+  deleteAccount: async (): Promise<ApiResponse<null>> => {
+    const response = await api.delete("/api/v1/users/profile");
     return response.data;
   },
 };
 
 // Posts API calls (placeholder)
 export const postsAPI = {
-  getAllPosts: async () => {
+  getAllPosts: async (): Promise<ApiResponse<any[]>> => {
     const response = await api.get("/api/v1/posts");
     return response.data;
   },
 
-  getMyPosts: async () => {
+  getMyPosts: async (): Promise<ApiResponse<any[]>> => {
     const response = await api.get("/api/v1/posts/my-posts");
+    return response.data;
+  },
+
+  createPost: async (data: {
+    title: string;
+    content: string;
+    excerpt?: string;
+  }): Promise<ApiResponse<any>> => {
+    const response = await api.post("/api/v1/posts", data);
+    return response.data;
+  },
+
+  updatePost: async (
+    id: string,
+    data: {
+      title?: string;
+      content?: string;
+      excerpt?: string;
+    }
+  ): Promise<ApiResponse<any>> => {
+    const response = await api.put(`/api/v1/posts/${id}`, data);
+    return response.data;
+  },
+
+  deletePost: async (id: string): Promise<ApiResponse<null>> => {
+    const response = await api.delete(`/api/v1/posts/${id}`);
     return response.data;
   },
 };

@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { RegisterDto, LoginDto } from '../dto/auth.dto';
@@ -14,53 +18,93 @@ export class AuthService {
   async register(
     registerDto: RegisterDto,
   ): Promise<{ user: Omit<User, 'password'>; access_token: string }> {
-    // Kiểm tra email đã tồn tại
-    const existingUser = await this.usersService.findByEmail(registerDto.email);
-    if (existingUser) {
-      throw new UnauthorizedException('Email already exists');
+    try {
+      // Check if email already exists
+      const existingUser = await this.usersService.findByEmail(
+        registerDto.email,
+      );
+      if (existingUser) {
+        throw new BadRequestException('Email already exists');
+      }
+
+      // Create new user
+      const user = await this.usersService.create(registerDto);
+
+      // Generate JWT token
+      const payload = {
+        email: user.email,
+        sub: user.id,
+        role: user.role,
+      };
+
+      const { password, ...userResult } = user;
+
+      return {
+        user: userResult,
+        access_token: this.jwtService.sign(payload),
+      };
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new BadRequestException('Registration failed');
     }
-
-    const user = await this.usersService.create(registerDto);
-    const payload = { email: user.email, sub: user.id };
-    const { password, ...userResult } = user;
-
-    return {
-      user: userResult,
-      access_token: this.jwtService.sign(payload),
-    };
   }
 
   async login(
     loginDto: LoginDto,
   ): Promise<{ user: Omit<User, 'password'>; access_token: string }> {
-    const user = await this.usersService.findByEmail(loginDto.email);
-    if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+    try {
+      // Find user by email
+      const user = await this.usersService.findByEmail(loginDto.email);
+      if (!user) {
+        throw new UnauthorizedException('Invalid email or password');
+      }
+
+      // Validate password
+      const isPasswordValid = await this.usersService.validatePassword(
+        loginDto.password,
+        user.password,
+      );
+      if (!isPasswordValid) {
+        throw new UnauthorizedException('Invalid email or password');
+      }
+
+      // Generate JWT token
+      const payload = {
+        email: user.email,
+        sub: user.id,
+        role: user.role,
+      };
+
+      const { password, ...userResult } = user;
+
+      return {
+        user: userResult,
+        access_token: this.jwtService.sign(payload),
+      };
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      throw new UnauthorizedException('Login failed');
     }
-
-    const isPasswordValid = await this.usersService.validatePassword(
-      loginDto.password,
-      user.password,
-    );
-    if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-
-    const payload = { email: user.email, sub: user.id };
-    const { password, ...userResult } = user;
-
-    return {
-      user: userResult,
-      access_token: this.jwtService.sign(payload),
-    };
   }
 
   async validateUser(payload: any): Promise<any> {
-    const user = await this.usersService.findById(payload.sub);
-    if (user) {
-      const { password, ...result } = user;
-      return result;
+    try {
+      const user = await this.usersService.findById(payload.sub);
+      if (user) {
+        const { password, ...result } = user;
+        return {
+          userId: result.id,
+          email: result.email,
+          role: result.role,
+        };
+      }
+      return null;
+    } catch (error) {
+      return null;
     }
-    return null;
   }
 }

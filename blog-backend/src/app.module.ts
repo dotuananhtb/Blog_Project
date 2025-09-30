@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
+import { SeedService } from './config/seed.service';
 import { databaseConfig } from './config/database.config';
 
 @Module({
@@ -15,6 +16,6 @@ import { databaseConfig } from './config/database.config';
     PostsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SeedService],
 })
 export class AppModule {}
