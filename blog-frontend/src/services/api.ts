@@ -78,6 +78,11 @@ export const usersAPI = {
     const response = await api.put("/api/v1/users/profile", data);
     return response.data;
   },
+
+  deleteAccount: async () => {
+    const response = await api.delete("/api/v1/users/profile");
+    return response.data;
+  },
 };
 
 // Posts API calls (placeholder)

@@ -38,6 +38,7 @@ interface AuthContextType {
     bio?: string;
     avatar?: string;
   }) => Promise<void>;
+  deleteAccount: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -136,6 +137,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const deleteAccount = async () => {
+    try {
+      await usersAPI.deleteAccount();
+      Cookies.remove("access_token");
+      setUser(null);
+      router.push("/");
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || "Account deletion failed");
+    }
+  };
+
   const value = {
     user,
     loading,
@@ -143,6 +156,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     register,
     logout,
     updateProfile,
+    deleteAccount,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
