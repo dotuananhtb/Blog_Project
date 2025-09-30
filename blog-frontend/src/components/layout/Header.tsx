@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
+import Avatar from "@/components/Avatar";
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -37,9 +38,12 @@ export default function Header() {
           <div className="flex items-center space-x-4">
             {user ? (
               <div className="flex items-center space-x-4">
-                <span className="text-gray-700 text-sm">
-                  Hello, {user.name}
-                </span>
+                <div className="flex items-center space-x-2">
+                  <Avatar user={user} size="md" />
+                  <span className="text-gray-700 text-sm">
+                    Hello, {user.name}
+                  </span>
+                </div>
                 <Link
                   href="/profile"
                   className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"

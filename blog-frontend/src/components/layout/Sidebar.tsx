@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
+import Avatar from "@/components/Avatar";
 
 export default function Sidebar() {
   const { user } = useAuth();
@@ -13,11 +14,7 @@ export default function Sidebar() {
         {user && (
           <div className="mb-8">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-medium">
-                  {user.name.charAt(0).toUpperCase()}
-                </span>
-              </div>
+              <Avatar user={user} size="lg" />
               <div>
                 <h3 className="font-medium text-gray-900">{user.name}</h3>
                 <p className="text-sm text-gray-500">{user.email}</p>
